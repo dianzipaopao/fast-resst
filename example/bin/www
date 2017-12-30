@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('fast-rest:server');
 var http = require('http');
+var mongoose = require('mongoose');
 
 /**
  * Get port from environment and store in Express.
@@ -21,13 +22,21 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+mongoose.connect('mongodb://localhost:27017/my_test_db');
+// CONNECTION EVENTS
+// When successfully connected
+mongoose.connection.on('connected', function () {
+  /**
+   * Listen on provided port, on all network interfaces.
+   */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+});
+
+
+
 
 /**
  * Normalize a port into a number, string, or false.

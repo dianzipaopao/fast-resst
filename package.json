@@ -1,0 +1,32 @@
+{
+  "name": "fast-rest",
+  "version": "0.1.0",
+  "description": "This package provides a light framework which enbles you to create express restful api quickly from mongodb.",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sharebooks/fast-rest.git"
+  },
+  "keywords": [
+    "express",
+    "restful",
+    "mongo",
+    "mongoose",
+    "framework",
+    "light",
+    "quick",
+    "fast"
+  ],
+  "author": "Bin Liu",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/sharebooks/fast-rest/issues"
+  },
+  "homepage": "https://github.com/sharebooks/fast-rest#readme"
+}

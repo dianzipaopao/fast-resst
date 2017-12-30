@@ -1,5 +1,6 @@
 # fast-rest
- This package provides a light framework which enables you to create express restful api quickly from mongoose.
+
+ Convert mongoose collection into REST APIs quickly with just few lines of code. You may choose where to mount and which one to mount. Work perfectly with express and express middleware.
 
 ## Installation
 

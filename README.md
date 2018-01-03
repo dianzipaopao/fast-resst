@@ -16,7 +16,7 @@ Create mongoose model
 
 Create FastRest
 
-    var FastRest = require('../../lib')
+    var FastRest = require('fast-rest')
     var todos = new FastRest(Todos)
 
 You need to pass the mongoose model to FastRest. It returns an instance with five mount methods. Check next section for how to mount them.

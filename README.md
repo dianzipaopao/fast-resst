@@ -58,18 +58,28 @@ Above code automatically generates below REST API from mongoose collection.
     PUT     /todos/:id
     DELETE  /todos/:id
 
-For the GET /todos method, you also could give the query parameters:
+For the GET /todos method, you also could give the query parameters. The query parameters could include the following content:
 
-    http://localhost:3000/todos?title=title0
+- filters: the filters json object.
+- skip: integer value.
+- limit: integer value.
+- sort: joson object for sort the result.
+- select: the json object to select returned fields.
 
+`http://localhost:3000/todos?filters={"title":"title100"}`
+`http://localhost:3000/todos?filters={"$or":[{"title":"title100"}, {"title":"title1"}]}`
+`http://localhost:3000/todos?sort={"title":"-1"}`
+`http://localhost:3000/todos?sort={"title":"-1"}&skip=1`
+`http://localhost:3000/todos?sort={"title":"-1"}&skip=1&limit=1`
+`http://localhost:3000/todos?sort={"title":"-1"}&skip=1&limit=1&select={"title":1, "_id":0}`
 
 ### Custom
 
-By default, the mongo collection use "_id" as the key. However, you may custom it when create FastRest.
+By default, the mongo collection use '_id' as the key. However, you may custom it when create FastRest.
 
     var todos = new FastRest(Todos, '_id', 'id')
 
-"_id" is the key of the collection. 'id' is the url params. By default it is ":id", however you may use a different name when the ":id" is used.
+'_id' is the key of the collection. 'id' is the url params. By default it is ':id', however you may use a different name when the ':id' is used.
 
 For example, with the following code
 
@@ -78,3 +88,28 @@ For example, with the following code
 The URI path will be
 
     router.get('/mytodos/:todoId', todos.detail)
+
+### Security
+
+Use express middleware to make sure API more secure. It is out of the scope of this package, though I can list two examples.
+
+#### Control the query filters.
+
+Sometimes, some fields are senstive, it may result unexpected result. Use middleware, you could exclude those fields from filters.
+
+    router.get('/mytodos', function(req, res, next) {
+      //the middleware to perform more control.
+      //.... add/remove req.query.filters
+      // delete req.query.filters.category
+
+    }, todos.list)
+
+#### Control returned fields.
+
+If you want to exclude some fields from returned result, you could overwrite the query.select object in the middleware.
+
+    router.get('/mytodos', function(req, res, next) {
+      //the middleware to perform more control.
+      //.... add/remove req.query.select
+
+    }, todos.list)

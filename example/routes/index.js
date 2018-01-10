@@ -5,6 +5,10 @@ var Todos = require('../models/todos')
 var FastRest = require('../../lib')
 // var todos = new FastRest(Todos, '_id', 'id')
 var todos = new FastRest(Todos)
+var todos2 = new FastRest(Todos, {
+  idField: 'title', // the key filed is "title"
+  paramId: 'title'
+})
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -42,5 +46,24 @@ router.delete('/mytodos/:id', todos.delete)
 
 // Short cut for all the routes
 router.use('/todos', todos.router())
+
+// Setup the route with new constructor.
+router.get('/td', todos2.list)
+router.post('/td', todos2.create)
+router.get('/td/:title', todos2.detail)
+router.put('/td/:title', todos2.update)
+router.delete('/td/:title', todos2.delete)
+
+// Use middleware
+router.get('/mtd', todos2.queryMiddleware({
+  'filters': {
+    'title': 'title2'
+  }
+}), todos2.list)
+router.get('/mtd/:title', todos2.queryMiddleware({
+  'select': {
+    '__v': 0 // do not return field
+  }
+}), todos2.detail)
 
 module.exports = router

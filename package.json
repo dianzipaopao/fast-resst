@@ -1,6 +1,6 @@
 {
   "name": "fast-rest",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Convert mongoose collection into REST APIs quickly.",
   "main": "index.js",
   "directories": {

@@ -77,17 +77,23 @@ For the GET /todos method, you also could give the query parameters. The query p
 
 By default, the mongo collection use '_id' as the key. However, you may custom it when create FastRest.
 
-    var todos = new FastRest(Todos, '_id', 'id')
+    var todos = new FastRest(Todos, {
+      'idField': 'field_rather_than_id',
+      'paramId': 'custom_param'
+    })
 
-'_id' is the key of the collection. 'id' is the url params. By default it is ':id', however you may use a different name when the ':id' is used.
+'idField' is the key field of the collection. 'paramId' is the url params. By default it is ':id', however you may use a different name when the ':id' is used.
 
 For example, with the following code
 
-    var todos = new FastRest(Todos, '_id', 'todoId')
+    var todos = new FastRest(Todos, {
+      'idField': 'title',
+      'paramId': 'title'
+    })
 
 The URI path will be
 
-    router.get('/mytodos/:todoId', todos.detail)
+    router.get('/mytodos/:title', todos.detail)
 
 ### Security
 
@@ -113,3 +119,24 @@ If you want to exclude some fields from returned result, you could overwrite the
       //.... add/remove req.query.select
 
     }, todos.list)
+
+Use pre-defined middleware to perform the same process.
+
+    router.get('/mtd', todos2.queryMiddleware({
+      'filters': {
+        'title': 'title2'   //overwrite the 'title' filter.
+      }
+    }), todos2.list)
+    router.get('/mtd/:title', todos2.queryMiddleware({
+      'select': {
+        '__v': 0 // do not return field
+      }
+    }), todos2.detail)
+
+## History
+
+### V1.0.7
+- Change constructor from constructor (model, idField, paramId) to constructor (model, options) where options includes idField, paramId.
+- Bug fix for delete method.
+- detail method supports select.
+- Add queryMiddleware
